@@ -5,7 +5,7 @@ import MyBooksClient from './MyBooksClient';
 import { redirect } from 'next/navigation';
 
 export default async function MyBooksPage() {
-  const session = await auth.api.session();
+  const session = await auth.session();
   if (!session?.user) {
     redirect('/');
   }
