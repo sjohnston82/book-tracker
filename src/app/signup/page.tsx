@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createAuthClient } from "better-auth/react";
 
-const { signIn, signUp } = createAuthClient();
+const { signUp } = createAuthClient();
 
 export default function SignupPage() {
   const router = useRouter();
@@ -15,26 +15,17 @@ export default function SignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(""); // clear previous error
     try {
-      await signUp["email"]({ name, email, password });
+      await signUp.email({ name, email, password });
       router.push("/books");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      // Try to extract a detailed error message from the API response
-      if (err?.response) {
-        try {
-          const data = await err.response.json();
-          setError(
-            data?.error ||
-              data?.message ||
-              err.message ||
-              "Something went wrong"
-          );
-        } catch {
-          setError(err.message || "Something went wrong");
-        }
-      } else {
-        setError(err.message || "Something went wrong");
-      }
+      const message =
+        err?.data?.message ||
+        err?.message ||
+        "Something went wrong during signup.";
+      setError(message);
     }
   };
 

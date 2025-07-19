@@ -53,6 +53,7 @@ export const useZxing = ({
             }
           }
         );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         if (
           e?.message?.includes("getImageData") ||

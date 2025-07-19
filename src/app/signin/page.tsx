@@ -17,6 +17,7 @@ export default function SigninPage() {
     try {
       await signIn["email"]({ email, password });
       router.push("/books");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       if (err?.response) {
         try {
