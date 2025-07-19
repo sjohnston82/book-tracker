@@ -4,13 +4,11 @@ import {
   useEffect,
   useState,
   useTransition,
-  useMemo,
   useCallback,
 } from "react";
 import Image from "next/image";
 import BarcodeScanner from "@/components/BarcodeScanner";
 import Modal from "@/components/Modal";
-import Link from "next/link";
 import type { BookInfo } from "@/types/book";
 
 type Book = {
@@ -18,7 +16,7 @@ type Book = {
   title: string;
   author: string;
   isbn: string;
-  coverUrl?: string;
+  coverUrl?: string | null;
 };
 
 export default function MyBooksClient({

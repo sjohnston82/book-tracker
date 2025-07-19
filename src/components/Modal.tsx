@@ -1,7 +1,11 @@
 "use client";
 import { ReactNode } from "react";
 
-export default function Modal({ open, onClose, children }: {
+export default function Modal({
+  open,
+  onClose,
+  children,
+}: {
   open: boolean;
   onClose: () => void;
   children: ReactNode;

@@ -1,13 +1,11 @@
-
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { PrismaClient } from "@prisma/client";
 
-
-console.log('[better-auth] Loaded environment variables:');
-console.log('DATABASE_URL:', process.env.DATABASE_URL);
-console.log('BETTER_AUTH_SECRET:', process.env.BETTER_AUTH_SECRET);
-console.log('BASE_URL:', process.env.BASE_URL);
+// console.log("[better-auth] Loaded environment variables:");
+// console.log("DATABASE_URL:", process.env.DATABASE_URL);
+// console.log("BETTER_AUTH_SECRET:", process.env.BETTER_AUTH_SECRET);
+// console.log("BASE_URL:", process.env.BASE_URL);
 
 const prisma = new PrismaClient();
 
@@ -47,13 +45,18 @@ const betterAuthConfig = {
   baseURL: process.env.BASE_URL,
   trustedOrigins: [
     "http://localhost:3000",
-    "https://95032832a354.ngrok-free.app"
+    "https://95032832a354.ngrok-free.app",
   ],
 };
 
-console.log('[better-auth] Loaded config:', JSON.stringify({
-  ...betterAuthConfig,
-  database: '[prismaAdapterWithLogging]', // avoid printing the whole adapter
-}));
+console.log(
+  "[better-auth] Loaded config:",
+  JSON.stringify({
+    ...betterAuthConfig,
+    database: "[prismaAdapterWithLogging]", // avoid printing the whole adapter
+  })
+);
 
-export const auth = betterAuth(betterAuthConfig);
+const { auth, handler, api } = betterAuth(betterAuthConfig);
+
+export { auth, handler, api }; // ✅ this is clean
