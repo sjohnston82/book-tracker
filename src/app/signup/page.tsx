@@ -17,7 +17,7 @@ export default function SignupPage() {
     e.preventDefault();
     setError(""); // clear previous error
     try {
-      await signUp.email({ name, email, password });
+      await signUp.email({ naffme, email, password });
       router.push("/books");
       console.log("good");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
