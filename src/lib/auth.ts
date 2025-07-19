@@ -59,5 +59,6 @@ console.log(
 
 const auth = betterAuth(betterAuthConfig);
 
+export { auth }; // ✅ This line is missing
 export const handler = auth.handler;
 export const api = auth.api;
