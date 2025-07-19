@@ -57,6 +57,8 @@ console.log(
   })
 );
 
-const { auth, handler, api } = betterAuth(betterAuthConfig);
+const better = betterAuth(betterAuthConfig);
 
-export { auth, handler, api }; // ✅ this is clean
+export const handler = better.handler;
+export const api = better.api;
+export const auth = better; // the main auth function is the default export
