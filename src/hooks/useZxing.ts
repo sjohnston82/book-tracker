@@ -32,34 +32,44 @@ export const useZxing = ({
     return instance;
   }, [hints, timeBetweenDecodingAttempts]);
 
-
-useEffect(() => {
-  if (!ref.current) return;
-  let cancelled = false;
-  const tryDecode = () => {
-    if (cancelled) return;
-    try {
-      reader.decodeFromConstraints(constraints, ref.current!, (result, error) => {
-        if (result) onResult(result);
-        // Only call onError for real errors, not 'No MultiFormat Readers...' (ZXing's not-found error)
-        if (error && error.message !== 'No MultiFormat Readers were able to detect the code.') {
-          onError(error);
+  useEffect(() => {
+    if (!ref.current) return;
+    let cancelled = false;
+    const tryDecode = () => {
+      if (cancelled) return;
+      try {
+        reader.decodeFromConstraints(
+          constraints,
+          ref.current!,
+          (result, error) => {
+            if (result) onResult(result);
+            // Only call onError for real errors, not 'No MultiFormat Readers...' (ZXing's not-found error)
+            if (
+              error &&
+              error.message !==
+                "No MultiFormat Readers were able to detect the code."
+            ) {
+              onError(error);
+            }
+          }
+        );
+      } catch (e: any) {
+        if (
+          e?.message?.includes("getImageData") ||
+          e?.name === "IndexSizeError"
+        ) {
+          setTimeout(tryDecode, 100);
+        } else {
+          onError(e);
         }
-      });
-    } catch (e: any) {
-      if (e?.message?.includes('getImageData') || e?.name === 'IndexSizeError') {
-        setTimeout(tryDecode, 100);
-      } else {
-        onError(e);
       }
-    }
-  };
-  tryDecode();
-  return () => {
-    cancelled = true;
-    reader.reset();
-  };
-}, [ref, reader, constraints, onResult, onError]);
+    };
+    tryDecode();
+    return () => {
+      cancelled = true;
+      reader.reset();
+    };
+  }, [ref, reader, constraints, onResult, onError]);
 
   return { ref };
 };

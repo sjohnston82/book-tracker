@@ -5,15 +5,16 @@ import { headers } from "next/headers";
 
 export async function middleware(req: NextRequest) {
   const session = await auth.api.getSession({
-    headers: await headers()
+    headers: await headers(),
   });
-  if (!session) {
+
+  if (!session?.user) {
     return NextResponse.redirect(new URL("/signin", req.url));
   }
+
   return NextResponse.next();
 }
 
 export const config = {
-  runtime: "nodejs",
   matcher: ["/((?!_next|.*\\..*).*)"],
 };

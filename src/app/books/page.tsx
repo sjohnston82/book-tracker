@@ -1,4 +1,3 @@
-
 import MyBooksClient from "../../books/MyBooksClient";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
@@ -19,6 +18,9 @@ export default async function MyBooksPage() {
     where: { userId: session.user.id },
     orderBy: { addedAt: "desc" },
   });
-  const books = booksRaw.map(b => ({ ...b, coverUrl: b.coverUrl ?? undefined }));
+  const books = booksRaw.map((b) => ({
+    ...b,
+    coverUrl: b.coverUrl ?? undefined,
+  }));
   return <MyBooksClient initialBooks={books} />;
 }
