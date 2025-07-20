@@ -19,7 +19,7 @@ export default function SignupPage() {
     try {
       await signUp.email({ name, email, password });
       router.push("/books");
-      console.log("good");
+      console.log("good1");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const message =
