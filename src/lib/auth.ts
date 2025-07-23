@@ -5,6 +5,11 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+const isProd = process.env.NODE_ENV === "production";
+const prodURL =
+  process.env.BASE_URL ??
+  "https://book-tracker-g4o8y8oc9-sjohnston82s-projects.vercel.app";
+
 export const auth = betterAuth({
   database: prismaAdapter(prisma, { provider: "postgresql" }),
   emailAndPassword: {
@@ -14,8 +19,7 @@ export const auth = betterAuth({
     maxPasswordLength: 128,
   },
   secret: process.env.BETTER_AUTH_SECRET,
-  baseURL: process.env.BASE_URL,
-  trustedOrigins: ["http://localhost:3000"],
+  baseURL: isProd ? prodURL : "http://localhost:3000",
+  trustedOrigins: isProd ? [prodURL] : ["http://localhost:3000"],
   plugins: [nextCookies()],
 });
-
