@@ -12,3 +12,11 @@ export interface BookInfo {
   authors?: Author[];
   cover?: Cover;
 }
+
+export interface Book {
+  id: string;
+  title: string;
+  author: string;
+  isbn: string;
+  coverUrl?: string | null;
+}
